@@ -376,6 +376,32 @@ export class PageController extends EventTarget {
 	}
 
 	/**
+	 * Navigate back in browser history
+	 */
+	async goBack(): Promise<ActionResult> {
+		try {
+			if (!window.history || window.history.length <= 1) {
+				return {
+					success: false,
+					message: '❌ No page to go back to.',
+				}
+			}
+			// Record the URL before navigating back for observation
+			const previousUrl = window.document.referrer || 'previous page'
+			window.history.back()
+			return {
+				success: true,
+				message: `✅ Navigated back to ${previousUrl}.`,
+			}
+		} catch (error) {
+			return {
+				success: false,
+				message: `❌ Failed to go back: ${error}`,
+			}
+		}
+	}
+
+	/**
 	 * Execute arbitrary JavaScript on the page
 	 */
 	async executeJavascript(script: string): Promise<ActionResult> {

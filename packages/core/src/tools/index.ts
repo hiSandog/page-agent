@@ -184,7 +184,19 @@ tools.set(
 	})
 )
 
+tools.set(
+	'go_back',
+	tool({
+		description:
+			'Go back to the previous page in browser history. Use when you need to navigate back after clicking a link or completing a step on a wrong page.',
+		inputSchema: z.object({}),
+		execute: async function (this: PageAgentCore) {
+			const result = await this.pageController.goBack()
+			return result.message
+		},
+	})
+)
+
 // @todo send_keys
 // @todo upload_file
-// @todo go_back
 // @todo extract_structured_data

@@ -137,6 +137,10 @@ export class RemotePageController {
 		return this.remoteCallDomAction('execute_javascript', args)
 	}
 
+	async goBack(...args: any[]): Promise<DomActionReturn> {
+		return this.remoteCallDomAction('go_back', args)
+	}
+
 	/** @note Managed by content script via storage polling. */
 	async showMask(): Promise<void> {}
 	/** @note Managed by content script via storage polling. */

@@ -92,6 +92,23 @@ export function initPageController() {
 					)
 				break
 
+			case 'go_back':
+				pc[methodName](...(payload || []))
+					.then((result: any) => {
+						// Navigation back triggers page load; wait before responding
+						return new Promise((resolve) =>
+							setTimeout(() => resolve(result), 1000)
+						)
+					})
+					.then((result: any) => sendResponse(result))
+					.catch((error: any) =>
+						sendResponse({
+							success: false,
+							error: error instanceof Error ? error.message : String(error),
+						})
+					)
+				break
+
 			default:
 				sendResponse({
 					success: false,
@@ -128,6 +145,9 @@ function getMethodName(action: string): string {
 			return 'scrollHorizontally' as const
 		case 'execute_javascript':
 			return 'executeJavascript' as const
+
+		case 'go_back':
+			return 'goBack' as const
 
 		default:
 			return action
